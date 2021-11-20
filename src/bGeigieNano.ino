@@ -189,12 +189,12 @@ static bool gps_gen_timestamp(TinyGPS &gps, char *buf, unsigned long counts, uns
 static char checksum(char *s, int N);
 #if ENABLE_OPENLOG
 static void setupOpenLog();
-static bool loadConfig(char *fileName);
+//static bool loadConfig(char *fileName);
 static void createFile(char *fileName);
 #endif
 static void gps_program_settings();
 static float read_voltage(int pin);
-static int availableMemory();
+//static int availableMemory();
 static unsigned long elapsedTime(unsigned long startTime);
 #if ENABLE_100M_TRUNCATION
 static void truncate_100m(char *latitude, char *longitude);
@@ -421,7 +421,7 @@ void setup()
 // ****************************************************************************
 void loop()
 {
-  bool gpsReady = false;
+  //bool gpsReady = false;
 
 #if ENABLE_GEIGIE_SWITCH
   // Check geigie mode switch
@@ -476,7 +476,7 @@ void loop()
       Serial.print(c); // uncomment this line if you want to see the GPS data flowing
 #endif
       if (gps.encode(c)) // Did a new valid sentence come in?
-        gpsReady = true;
+        /* gpsReady = true */ ;
     }
 #endif
   }
@@ -676,7 +676,7 @@ void setupOpenLog() {
 /* create a new file */
 void createFile(char *fileName) {
   int result = 0;
-  int safeguard = 0;
+ // int safeguard = 0;
 
   OpenLog.listen();
 
@@ -961,7 +961,7 @@ bool gps_gen_timestamp(TinyGPS &gps, char *buf, unsigned long counts, unsigned l
     else
     {
       // Distance in meters
-      unsigned long int dist = (long int)TinyGPS::distance_between(flat, flon, gps_last_lat, gps_last_lon);
+      long int dist = (long int)TinyGPS::distance_between(flat, flon, gps_last_lat, gps_last_lon);
 
       if (dist > trigger_dist)
       {

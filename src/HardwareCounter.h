@@ -73,8 +73,8 @@ class HardwareCounter
 
   // privatee
   private:
-    long _start_time;
-    long _delay;
+    unsigned long _start_time;
+    unsigned long _delay;
     COUNTER_TYPE _count;
 
 };

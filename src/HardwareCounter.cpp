@@ -43,7 +43,6 @@ HardwareCounter::HardwareCounter(int timer_pin, long delay)
 // call this to start the counter
 void HardwareCounter::start()
 {
-
   // hardware counter setup ( refer atmega168.pdf chapter 16-bit counter1)
   TCCRnA=0;     // reset timer/countern control register A
   TCCRnB=0;     // reset timer/countern control register A
@@ -68,24 +67,18 @@ void HardwareCounter::start()
 // call this to read the current count and save it
 COUNTER_TYPE HardwareCounter::count()
 {
-_start_time = millis();   // reset time for next sample 
+  _start_time = millis(); // reset time for next sample 
   TCCRnB = TCCRnB & ~7;   // Gate Off  / Counter Tn stopped
   _count = (COUNTER_TYPE) TCNTn;
   TCCRnB = TCCRnB | 7;    // restart counting
   return _count;
-
 }
 
 // This indicates when the count over the determined period is over
 int HardwareCounter::available()
 {
-  // get current time
-  unsigned long now = millis();
-  // do basic check for millis overflow
-  if (now >= _start_time)
-    return (now - _start_time >= _delay);
-  else
-    return (ULONG_MAX + now - _start_time >= _delay);
+  // Correctly handles rollovers:
+  return (millis() - _start_time >= _delay);
 }
 
 
